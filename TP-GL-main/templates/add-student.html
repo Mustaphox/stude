@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-upload {
+            color: #28a745; /* Green text */
+            border-color: #28a745; /* Green border */
+        }
+
+        .btn-upload:hover {
+            background-color: #28a745; /* Green background on hover */
+            color: white; /* White text on hover */
+        }
+
+        /* Form styling */
+        form {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Link styling */
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Student to Group: {{ group.name }}</h1>
+
+        <!-- Form to add a new student -->
+        <form method="POST" action="{{ url_for('add_student', group_id=group.id) }}">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="surname">Family Name:</label>
+            <input type="text" id="surname" name="surname" required>
+            <br>
+            <button type="submit">Add Student</button>
+        </form>
+
+        <h2>Or Upload Excel File</h2>
+        <form method="POST" action="{{ url_for('add_students_excel', group_id=group.id) }}" enctype="multipart/form-data">
+            <label for="excel_file">Upload Excel File:</label>
+            <input type="file" name="excel_file" accept=".xlsx, .xls" required>
+            <br>
+            <button type="submit" class="btn-upload">Upload and Add Students</button>
+        </form>
+
+        <br>
+        <a href="{{ url_for('view_students', group_id=group.id) }}" class="btn">Back to Students</a>
+    </div>
+</body>
+</html>

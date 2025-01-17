@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Adjusted max-width */
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        .header h1 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-back {
+            color: #6c757d; /* Gray text */
+            border-color: #6c757d; /* Gray border */
+        }
+
+        .btn-back:hover {
+            background-color: #6c757d; /* Gray background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .save-button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #28a745; /* Green background */
+            color: white; /* White text */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: black; /* Black text for radio button labels */
+        }
+
+        input[type="text"] {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        /* Form actions styling */
+        .form-actions {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Manage Attendance for Session {{ session_id }}</h1>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="content">
+            <!-- Back Button -->
+            <a href="{{ url_for('view_sessions', group_id=group_id) }}" class="btn btn-back">Back to Sessions</a>
+            
+            <!-- Attendance Form -->
+            <form method="POST" action="{{ url_for('save_attendance', group_id=group_id, session_id=session_id) }}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Student Name</th>
+                            <th>Attendance Status</th>
+                            <th>Observation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ student.name }} {{ student.surname }}</td>
+                            <td>
+                                <div class="radio-group">
+                                    <label>
+                                        <input 
+                                            type="radio" 
+                                            name="attendance_{{ student.id }}[status]" 
+                                            value="present" 
+                                            {% if student.status == 'present' %}checked{% endif %}
+                                        > Present
+                                    </label>
+                                    <label>
+                                        <input 
+                                            type="radio" 
+                                            name="attendance_{{ student.id }}[status]" 
+                                            value="absent" 
+                                            {% if student.status == 'absent' %}checked{% endif %}
+                                        > Absent
+                                    </label>
+                                    <label>
+                                        <input 
+                                            type="radio" 
+                                            name="attendance_{{ student.id }}[status]" 
+                                            value="justified" 
+                                            {% if student.status == 'justified' %}checked{% endif %}
+                                        > Justified
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    name="attendance_{{ student.id }}[observation]" 
+                                    value="{{ student.observation }}" 
+                                    placeholder="Observation (optional)" 
+                                    aria-label="Observation for {{ student.name }} {{ student.surname }}"
+                                >
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="form-actions">
+                    <button type="submit" class="btn save-button">Save Attendance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

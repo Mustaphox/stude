@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes Disponibles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        .header h1 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-edit {
+            color: #28a745; /* Green text */
+            border-color: #28a745; /* Green border */
+        }
+
+        .btn-edit:hover {
+            background-color: #28a745; /* Green background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-delete {
+            color: #dc3545; /* Red text */
+            border-color: #dc3545; /* Red border */
+        }
+
+        .btn-delete:hover {
+            background-color: #dc3545; /* Red background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-add {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>List of Classes</h1>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <!-- Classes Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>N</th>
+                        <th>Name</th>
+                        <th>Speciality</th>
+                        <th>Level</th>
+                        <th>Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for class in classes %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ class['name'] }}</td>
+                            <td>{{ class['specialty'] }}</td>
+                            <td>{{ class['level'] }}</td>
+                            <td>{{ class['year'] }}</td>
+                            <td>
+                                <!-- Edit Button -->
+                                <a href="/edit-class/{{ class['id'] }}" class="btn btn-edit">Edit</a>
+                                <!-- Delete Button -->
+                                <form action="/delete-class/{{ class['id'] }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-delete">Delete</button>
+                                </form>
+                                <!-- Groups Button -->
+                                <a href="/class/{{ class['id'] }}/groups" class="btn">Groups</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Add Class Button -->
+            <a href="/add-class" class="btn btn-add">Add a Class</a>
+            <a href="{{ url_for('welcome') }}" class="btn">Back to Dashboard</a>
+
+        </div>
+    </div>
+</body>
+</html>

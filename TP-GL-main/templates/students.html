@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students in Group {{ group.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-delete {
+            color: #dc3545; /* Red text */
+            border-color: #dc3545; /* Red border */
+        }
+
+        .btn-delete:hover {
+            background-color: #dc3545; /* Red background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-export {
+            color: #28a745; /* Green text */
+            border-color: #28a745; /* Green border */
+        }
+
+        .btn-export:hover {
+            background-color: #28a745; /* Green background on hover */
+            color: white; /* White text on hover */
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Header styling */
+        h1 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        p {
+            font-weight: bold;
+        }
+
+        /* Link styling */
+        a {
+            text-decoration: none;
+        }
+
+        /* Button container */
+        .button-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Students in Group: {{ group.name }}</h1>
+        <p>Total Students: {{ total_students }}</p>
+
+        <!-- Button container for Add, Export, and Delete All -->
+        <div class="button-container">
+            <a href="{{ url_for('add_student', group_id=group.id) }}" class="btn">Add New Student</a>
+            <a href="{{ url_for('export_students', group_id=group.id) }}" class="btn btn-export">Export Students to Excel</a>
+            <a href="{{ url_for('delete_students', group_id=group.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete all students?');">Delete All</a>
+        </div>
+
+        <!-- Table showing the list of students -->
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>N°</th>  <!-- Sequential Number -->
+                    <th>Name</th>
+                    <th>Family Name</th>
+                    <th>Sessions Attended</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if students %}
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ loop.index }}</td>  <!-- This will show 1, 2, 3, ... -->
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.surname }}</td>
+                        <td>{{ student.sessions_attended }}</td>
+                        <td>
+                            <!-- Buttons for editing and deleting a student -->
+                            <a href="{{ url_for('edit_student', student_id=student.id, group_id=group.id) }}" class="btn">Edit</a>
+                            <a href="{{ url_for('delete_student', student_id=student.id, group_id=group.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this student?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">No students found in this group.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <br>
+
+        <!-- Button to navigate back to the group management page -->
+        <a href="{{ url_for('groups', class_id=group.class_id) }}" class="btn">Back to Groups</a>
+    </div>
+</body>
+</html>

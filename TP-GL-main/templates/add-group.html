@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Group - Class {{ class_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        .header h1 {
+            color: #007bff;
+            margin-top: 0;
+            font-size: 1.5rem; /* Smaller font size */
+            white-space: nowrap; /* Ensure title stays in one line */
+            overflow: hidden; /* Prevent text overflow */
+            text-overflow: ellipsis; /* Add ellipsis if text overflows */
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-back {
+            color: #6c757d; /* Gray text */
+            border-color: #6c757d; /* Gray border */
+        }
+
+        .btn-back:hover {
+            background-color: #6c757d; /* Gray background on hover */
+            color: white; /* White text on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Add Group for Class {{ class_id }}</h1> <!-- Smaller title in one line -->
+        </div>
+
+        <!-- Add Group Form -->
+        <form action="{{ url_for('add_group', class_id=class_id) }}" method="post">
+            <div class="form-group">
+                <label for="group-type">Group Type:</label>
+                <select id="group-type" name="group-type" required>
+                    <option value="TD">TD</option>
+                    <option value="TP">TP</option>
+                    <option value="TP/TD">TP/TD</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Group</button>
+        </form>
+
+        <!-- Back to Groups Link -->
+        <a href="{{ url_for('groups', class_id=class_id) }}" class="btn btn-back">Back to Groups</a>
+    </div>
+</body>
+</html>

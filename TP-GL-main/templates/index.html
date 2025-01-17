@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue Professeur</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Additional styles for the statistics section */
+        .statistics {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+        .stat-card p {
+            margin: 0.5rem 0 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content">
+        <header class="header">
+            <h1>Welcome, Professor!</h1>
+        </header>
+
+        <main>
+            <section class="welcome-message">
+                <h2>Welcome to Our Online Teaching Platform</h2>
+                <p>We are thrilled to have you here! This platform is designed to empower you with the tools and resources needed to manage your courses, engage with your students, and streamline your teaching process. Whether you're organizing course materials, tracking student progress, or providing feedback, our platform is here to make your job easier and more efficient.</p>
+            </section>
+
+            <!-- Add the Statistics Section -->
+            <section class="statistics">
+                <div class="stat-card">
+                    <h3>Classes</h3>
+                    <p>{{ total_classes }}</p>
+                    <small>Total Classes</small>
+                </div>
+                <div class="stat-card">
+                    <h3>Groups</h3>
+                    <p>{{ total_groups }}</p>
+                    <small>Total Groups</small>
+                </div>
+                <div class="stat-card">
+                    <h3>Students</h3>
+                    <p>{{ total_students }}</p>
+                    <small>Total Students</small>
+                </div>
+            </section>
+
+            <section class="objective">
+                <h3>Our Mission</h3>
+                <p>At Mustapha Stambouli University, we are committed to providing a seamless and user-friendly experience for both professors and students. Our platform is designed to help you:</p>
+                <ul>
+                    <li><strong>Organize Course Materials:</strong> Easily upload and manage course content, assignments, and resources.</li>
+                    <li><strong>Track Student Progress:</strong> Monitor attendance, grades, and performance in real-time.</li>
+                    <li><strong>Engage with Students:</strong> Foster collaboration and communication through interactive tools.</li>
+                </ul>
+                <p>We believe that technology can transform education, and we are here to support you every step of the way. If you have any suggestions or need assistance, please don't hesitate to reach out to us.</p>
+            </section>
+        </main>
+
+        <div class="content" style="text-align: center; margin-top: 2rem;">
+            <a href="/classes" class="btn">Get Started</a>
+            <a href="{{ url_for('index') }}" class="btn" style="background-color: #dc3545; margin-left: 1rem;">Logout</a>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Mustapha Stambouli University. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

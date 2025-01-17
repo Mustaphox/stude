@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups - {{ class_data['name'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        .header h1 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-view {
+            color: #17a2b8; /* Teal text */
+            border-color: #17a2b8; /* Teal border */
+        }
+
+        .btn-view:hover {
+            background-color: #17a2b8; /* Teal background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-edit {
+            color: #28a745; /* Green text */
+            border-color: #28a745; /* Green border */
+        }
+
+        .btn-edit:hover {
+            background-color: #28a745; /* Green background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-delete {
+            color: #dc3545; /* Red text */
+            border-color: #dc3545; /* Red border */
+        }
+
+        .btn-delete:hover {
+            background-color: #dc3545; /* Red background on hover */
+            color: white; /* White text on hover */
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Link styling */
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Groups for Class: {{ class_data['name'] }}</h1>
+        </div>
+        
+        <div class="content">
+            <!-- Add New Group Button -->
+            <a href="{{ url_for('add_group', class_id=class_data['id']) }}" class="btn">Add New Group</a>
+            
+            <!-- Groups Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>N</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                        <tr>
+                            <td>{{ loop.index }}</td>  <!-- Sequential Number -->
+                            <td>{{ group['type'] }}</td>
+                            <td>
+                                <!-- View Students Button -->
+                                <a href="{{ url_for('view_students', group_id=group['id']) }}" class="btn btn-view">View Students</a>
+                                <!-- View Sessions Button -->
+                                <a href="{{ url_for('view_sessions', group_id=group['id']) }}" class="btn">View Sessions</a>
+                                <!-- Edit Group Button -->
+                                <a href="{{ url_for('edit_group', group_id=group['id']) }}" class="btn btn-edit">Edit</a>
+                                <!-- Delete Group Button -->
+                                <form action="{{ url_for('delete_group', group_id=group['id']) }}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <!-- Back to Classes Button -->
+            <a href="{{ url_for('classes') }}" class="btn">Back to Classes</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Class</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Add Class</h1>
+    </div>
+    <div class="content">
+        <form action="" method="POST">
+            <label for="specialty">Specialty:</label>
+            <input id="specialty" name="specialty"><br>
+
+            <label for="module">Class:</label>
+            <input type="text" id="name" name="name"><br>
+
+            <label for="level">Level:</label>
+            <select type="text" id="level" name="level">
+                <option value="M2">Master2</option>
+                <option value="M1">Master1</option>
+                <option value="L3">Licence3</option>
+                <option value="L2">Licence2</option>
+                <option value="L1">Licence1</option>
+            </select><br>
+            <label for="year">Year (e.g., 2024-2025):</label>
+            <input type="text" id="year" name="year" pattern="\d{4}-\d{4}" title="Please enter a valid year range (e.g., 2024-2025)" required>
+            <br>
+
+
+            <button type="submit" class="btn">Add Class</button>
+            <a href="{{ url_for('classes', class_id=class_id) }}" class="back-link">Back to Classes</a>
+        </form>
+    </div>
+</body>
+</html>

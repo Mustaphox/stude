@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier une Classe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+<body>
+
+    <div class="header">
+        <h1>Edit the Class</h1>
+    </div>
+    <div class="content">
+        <div class="form-container">
+            <form action="/edit-class/{{ class_data[0] }}" method="POST">
+                <label for="group-name">Class Name:</label>
+                <input type="text" name="name" value="{{ class_data[1] }}" required>
+                <label for="specialty">Speciality:</label>
+
+                <input type="text" name="specialty" value="{{ class_data[2] }}" required>
+                <label for="level">Level:</label>
+            <select type="text" id="level" name="level">
+                <option value="M2">Master2</option>
+                <option value="M1">Master1</option>
+                <option value="L3">Licence3</option>
+                <option value="L2">Licence2</option>
+                <option value="L1">Licence1</option>
+            </select><br>
+            
+            <label for="year">Year (e.g., 2024-2025):</label>
+            <input type="text" id="year" name="year" pattern="\d{4}-\d{4}" title="Please enter a valid year range (e.g., 2024-2025)" required>
+                   
+                <button type="submit" class="btn">Update</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

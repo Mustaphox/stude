@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Session</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='enhanced_styles.css') }}">
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px; /* Increased max-width */
+            background-color: white;
+            padding: 3rem; /* Increased padding */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        .header h1 {
+            color: #007bff;
+            margin-top: 0;
+            font-size: 2rem; /* Larger font size */
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 1.5rem; /* Increased margin */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem; /* Increased margin */
+            font-weight: bold;
+            font-size: 1.1rem; /* Larger font size */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="time"] {
+            width: 100%;
+            padding: 0.75rem; /* Increased padding */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem; /* Larger font size */
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1.5rem; /* Increased gap */
+            margin-top: 2rem; /* Increased margin */
+        }
+
+        .form-buttons button {
+            padding: 0.75rem 1.5rem; /* Larger padding */
+            font-size: 1.1rem; /* Larger font size */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-buttons button.primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .form-buttons button.primary:hover {
+            background-color: #0056b3;
+        }
+
+        .form-buttons button.secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .form-buttons button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem; /* Larger padding */
+            font-size: 1.1rem; /* Larger font size */
+            color: #007bff; /* Blue text */
+            background-color: transparent; /* No background color */
+            border: 1px solid #007bff; /* Blue border */
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0.5rem; /* Increased margin */
+        }
+
+        .btn:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: white; /* White text on hover */
+        }
+
+        .btn-back {
+            color: #6c757d; /* Gray text */
+            border-color: #6c757d; /* Gray border */
+        }
+
+        .btn-back:hover {
+            background-color: #6c757d; /* Gray background on hover */
+            color: white; /* White text on hover */
+        }
+
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            margin-top: 2.5rem; /* Increased margin */
+            color: #6c757d;
+            font-size: 1rem; /* Larger font size */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Add New Session</h1>
+        </header>
+
+        <!-- Content Section -->
+        <div class="content">
+            <h2>Create a New Session</h2>
+
+            <!-- Add Session Form -->
+            <form action="{{ url_for('add_session', group_id=group_id) }}" method="POST">
+
+                <div class="form-group">
+                    <label for="session_date">Date</label>
+                    <input type="date" id="session-date" name="session-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="session_time">Time</label>
+                    <input type="time" id="session-time" name="session-time" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="primary">Save Session</button>
+                    <button type="reset" class="secondary">Reset Form</button>
+                </div>
+            </form>
+
+            <!-- Back to Sessions Link -->
+            <a href="{{ url_for('view_sessions', group_id=group_id) }}" class="btn btn-back">Back to Sessions</a>
+        </div>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <p>&copy; 2024 Session Management System</p>
+        </footer>
+    </div>
+</body>
+</html>
