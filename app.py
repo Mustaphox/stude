@@ -1,15 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, Response, flash, send_file
-import sqlite3
 import os
-import keyboard
-import webview
-import io 
 import re
-import xlsxwriter
-import tkinter as tk # nhotou toule wl3orthe fl applicationwebimport io
-#import keyboard # min dir f11
+import sqlite3
 import openpyxl
 from io import BytesIO
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file, Response
 
 app = Flask(__name__)
 # Use an environment variable to set the secret key
@@ -76,53 +70,6 @@ def initialize_database():
 
 # Initialize the database when the app starts
 initialize_database()
-
-
-# Route for the login page
-@app.route('/')
-def login():
-    return render_template('login-page.html')
-
-
-# Route to handle form submission (login)
-@app.route('/submit', methods=['POST'])
-def submit():
-    fullname = request.form.get('fullname')
-    password = request.form.get('password')
-
-    # Check if the provided credentials match the hardcoded ones
-    if fullname == "gl" and password == "gl":
-        return redirect('/welcome')  # Render the welcome page
-    else:
-        return "Error: Invalid credentials, please try again."  # Error message if credentials don't match
-
-   
-@app.route('/welcome')
-def welcome():
-    conn = get_db_connection()
-    try:
-        # Fetch total number of classes
-        total_classes = conn.execute('SELECT COUNT(*) FROM classes').fetchone()[0]
-
-        # Fetch total number of groups
-        total_groups = conn.execute('SELECT COUNT(*) FROM groups').fetchone()[0]
-
-        # Fetch total number of students
-        total_students = conn.execute('SELECT COUNT(*) FROM students').fetchone()[0]
-
-        return render_template(
-            'index.html',  # Your welcome page template
-            total_classes=total_classes,
-            total_groups=total_groups,
-            total_students=total_students
-        )
-    except Exception as e:
-        return f"An error occurred: {e}"
-    finally:
-        conn.close()
-
-
-
 
 # Route to display all classes
 @app.route('/classes')
@@ -195,6 +142,7 @@ def edit_class(class_id):
 
     conn.close()
     return render_template('edit-class.html', class_data=class_data)
+
 # Delete a class
 @app.route('/delete-class/<int:class_id>', methods=['POST'])
 def delete_class(class_id):
@@ -217,9 +165,8 @@ def groups(class_id):
 @app.route('/class/<int:class_id>/add-group', methods=['GET', 'POST'])
 def add_group(class_id):
     if request.method == 'POST':
-
         group_type = request.form['group-type']
-        if group_type =="TP/TD":
+        if group_type == "TP/TD":
             conn = get_db_connection()
             conn.execute(
                'INSERT INTO groups ( type, class_id) VALUES (?, ?)',
@@ -401,6 +348,7 @@ def add_student(group_id):
     conn.close()
     # Render the add-student form
     return render_template('add-student.html', group=group)
+
 @app.route('/add_students_excel/<int:group_id>', methods=['POST'])
 def add_students_excel(group_id):
     if 'excel_file' not in request.files:
@@ -434,8 +382,6 @@ def add_students_excel(group_id):
     with get_db_connection() as conn:
         group = conn.execute('SELECT * FROM groups WHERE id = ?', (group_id,)).fetchone()
     return render_template('add-student.html', group=group, uploaded_students=uploaded_students)
-
-
 
 @app.route('/export_students/<int:group_id>')
 def export_students(group_id):
@@ -509,6 +455,7 @@ def edit_student(student_id, group_id):
     conn.close()
     # Render the edit form
     return render_template('edit-student.html', student=student, group_id=group_id)
+
 @app.route('/group/<int:group_id>/student/<int:student_id>/delete', methods=['GET'])
 def delete_student(group_id, student_id):
     conn = get_db_connection()
@@ -516,6 +463,7 @@ def delete_student(group_id, student_id):
     conn.commit()
     conn.close()
     return redirect(url_for('view_students', group_id=group_id))
+
 @app.route('/group/<int:group_id>/student/delete', methods=['GET'])
 def delete_students(group_id):
     conn = get_db_connection()
@@ -554,8 +502,6 @@ def manage_students(session_id):
     conn.close()
 
     return render_template('manage_student.html', group_id=group_id,session_id=session_id, students=students)
-
-
 
 @app.route('/save_attendance/<group_id>/<session_id>', methods=['POST'])
 def save_attendance(group_id, session_id):
@@ -600,7 +546,6 @@ def save_attendance(group_id, session_id):
         return f"An error occurred: {str(e)}", 500
     finally:
         conn.close()
-
 
 @app.route('/group/<int:group_id>/sessions', methods=['GET'])
 def view_sessions(group_id):
@@ -717,8 +662,6 @@ def delete_session(group_id, session_id):
     finally:
         conn.close()
 
-
-
 @app.route('/export_session/<int:session_id>')
 def export_session(session_id):
     conn = get_db_connection()
@@ -789,18 +732,4 @@ def index():
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    root.destroy()
-
-    Window = webview.create_window('Management Student', app , width=screen_width, height=screen_height, resizable=True)
-
-    def toggle_fullscreen():
-        Window.toggle_fullscreen()
-        
-        keyboard.add_hotkey("$", toggle_fullscreen)
-
-    # Start the WebView
-    webview.start()
     app.run(debug=True)
